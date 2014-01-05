@@ -1,0 +1,2 @@
+# Module com.expense.calc.AppWidgetSet
+# RPC service class, partial path of RPC policy file
