@@ -26,10 +26,12 @@ CREATE TABLE `Expense` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
   `spender_id` int(10) NOT NULL,
+  `expenditure_id` int(10) NOT NULL,
   `amount` DOUBLE NOT NULL,
   `expenseDate` date NOT NULL,
   PRIMARY KEY (`id`),
-   CONSTRAINT `expense_fk_member` FOREIGN KEY (`spender_id`) REFERENCES `Member` (`id`)
+   CONSTRAINT `expense_fk_member` FOREIGN KEY (`spender_id`) REFERENCES `Member` (`id`),
+   CONSTRAINT `expense_fk_expenditure` FOREIGN KEY (`expenditure_id`) REFERENCES `Expenditure` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
