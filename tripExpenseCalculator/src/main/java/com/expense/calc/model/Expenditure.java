@@ -27,7 +27,7 @@ public class Expenditure implements BaseEntity{
 	private Set<Member> members=Sets.newHashSet();
 	
 	@OneToMany(cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "expense_id", nullable = false)
+	@JoinColumn(name = "expenditure_id", nullable = false)
 	private Set<Expense> expenses=Sets.newHashSet();
 	
 
@@ -67,5 +67,24 @@ public class Expenditure implements BaseEntity{
 	public void deleteMember(Member member) {
 		this.members.remove(member);
 	}
+
+	public Set<Expense> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(Set<Expense> expenses) {
+		this.expenses = expenses;
+	}
+
+	public void addExpense(Expense expense) {
+		this.expenses.add(expense);
+	}
+
+	public void deleteExpense(Expense expense) {
+		this.expenses.remove(expense);
+		
+	}
+	
+	
 
 }

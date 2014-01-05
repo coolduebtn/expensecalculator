@@ -8,8 +8,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.expense.calc.builder.ExpenditureTestBuilder;
+import com.expense.calc.builder.ExpenseTestBuilder;
 import com.expense.calc.builder.MemberTestBuilder;
 import com.expense.calc.model.Expenditure;
+import com.expense.calc.model.Expense;
 import com.expense.calc.model.Member;
 import com.google.common.collect.Sets;
 
@@ -71,6 +73,40 @@ public class ExpenditureRepositoryIntegrationTest extends
 		assertThat(expenditureFromDb1.getMembers()).containsOnly(member2);
 		
 	}
+	
+	@Test
+	public void addExpenseTest() {
+		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
+		Member spender = createMember("cooldudebtn@gmail.com");
+		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(spender)
+				.build();
+		expenditure.addExpense(expense1);
+		
+		
+		Expenditure expenditureFromDb = expenditureRepository.getById(expenditure.getId());
+		assertThat(expenditureFromDb.getExpenses()).containsOnly(expense1);
+	}
+	
+	@Test
+	public void removeExpenseTest() {
+		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
+		Member spender = createMember("cooldudebtn@gmail.com");
+		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(spender)
+				.build();
+		expenditure.addExpense(expense1);
+		
+		Expense expense2 = ExpenseTestBuilder.anExpense().withSpender(spender)
+				.build();
+		expenditure.addExpense(expense2);
+		Expenditure expenditureFromDb = expenditureRepository.getById(expenditure.getId());
+		assertThat(expenditureFromDb.getExpenses()).containsOnly(expense1,expense2);
+		
+		expenditure.deleteExpense(expense1);
+		Expenditure expenditureFromDb2 = expenditureRepository.getById(expenditure.getId());
+		assertThat(expenditureFromDb2.getExpenses()).containsOnly(expense2);
+		
+	}
+
 	
 	private Member createMember(String email) {
 		return MemberTestBuilder.aMember().withEmail(email).build();
