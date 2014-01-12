@@ -9,6 +9,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.expense.calc.service.UserService;
+
 import java.util.Collection;
 
 @Component
