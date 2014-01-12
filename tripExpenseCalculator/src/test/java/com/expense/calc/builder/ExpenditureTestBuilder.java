@@ -5,7 +5,7 @@ import static com.google.gwt.thirdparty.guava.common.collect.Sets.newHashSet;
 import java.util.Set;
 
 import com.expense.calc.model.Expenditure;
-import com.expense.calc.model.Member;
+import com.expense.calc.model.User;
 import com.google.gwt.thirdparty.guava.common.collect.Sets;
 
 public class ExpenditureTestBuilder extends AbstractTestBuilder<Expenditure> {
@@ -16,7 +16,8 @@ public class ExpenditureTestBuilder extends AbstractTestBuilder<Expenditure> {
 	private static String PLACE="Budapest";
 	private String place=PLACE;
 	
-	private Set<Member> members=Sets.newHashSet();
+	private Set<User> members=Sets.newHashSet();
+	private User creator=UserTestBuilder.aUser().buildAndPersist();
 	
 	public static ExpenditureTestBuilder anExpenditure() {
 		return new ExpenditureTestBuilder();
@@ -26,18 +27,22 @@ public class ExpenditureTestBuilder extends AbstractTestBuilder<Expenditure> {
 		this.name=name;
 		return this;
 	}
-
-	public ExpenditureTestBuilder withExpenditure(String place) {
+	public ExpenditureTestBuilder withPlace(String place) {
 		this.place=place;
 		return this;
 	}
 	
-	public ExpenditureTestBuilder withMembers(Member... members) {
+	public ExpenditureTestBuilder withCreator(User creator) {
+		this.creator=creator;
+		return this;
+	}
+	
+	public ExpenditureTestBuilder withMembers(User... members) {
 		this.members.addAll(newHashSet(members));
 		return this;
 	}
 	
-	public ExpenditureTestBuilder withMembers(Set<Member> members) {
+	public ExpenditureTestBuilder withMembers(Set<User> members) {
 		this.members=members;
 		return this;
 	}
@@ -47,6 +52,7 @@ public class ExpenditureTestBuilder extends AbstractTestBuilder<Expenditure> {
 		expenditure.setName(this.name);
 		expenditure.setPlace(this.place);
 		expenditure.setMembers(this.members);
+		expenditure.setCreator(this.creator);
 		return expenditure;
 	}
 

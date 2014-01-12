@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.expense.calc.builder.ExpenditureTestBuilder;
 import com.expense.calc.builder.ExpenseTestBuilder;
-import com.expense.calc.builder.MemberTestBuilder;
+import com.expense.calc.builder.UserTestBuilder;
 import com.expense.calc.model.Expenditure;
 import com.expense.calc.model.Expense;
-import com.expense.calc.model.Member;
+import com.expense.calc.model.User;
 
 public class ExpenseRepositoryIntegrationTest extends
 		AbstractRepositoryIntegrationTest {
 
-	private Member spender;
+	private User spender;
 	private Expenditure expenditure;
 	
 	@Autowired
@@ -26,7 +26,7 @@ public class ExpenseRepositoryIntegrationTest extends
 	@Before
 	public void init() {
 		expenditure=ExpenditureTestBuilder.anExpenditure().buildAndPersist();
-		spender = MemberTestBuilder.aMember().withName("chandan")
+		spender = UserTestBuilder.aUser().withName("chandan").withUsername("chandu").withEmail("chandan@gmail.com")
 				.buildAndPersist();
 	}
 

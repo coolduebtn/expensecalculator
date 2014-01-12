@@ -4,15 +4,16 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.expense.calc.builder.ExpenditureTestBuilder;
 import com.expense.calc.builder.ExpenseTestBuilder;
-import com.expense.calc.builder.MemberTestBuilder;
+import com.expense.calc.builder.UserTestBuilder;
 import com.expense.calc.model.Expenditure;
 import com.expense.calc.model.Expense;
-import com.expense.calc.model.Member;
+import com.expense.calc.model.User;
 import com.google.common.collect.Sets;
 
 public class ExpenditureRepositoryIntegrationTest extends
@@ -20,10 +21,19 @@ public class ExpenditureRepositoryIntegrationTest extends
 	
 	@Autowired
 	private ExpenditureRepository expenditureRepository;
+	private User user1;
+	private User user2;
+	
+	@Before
+	public void init() {
+		user1 = createMember("cooldude@gmail.com","chandu");
+		user2 = createMember("chandan.agarwal@aubay.be","aubay");
+	}
 	
 	@Test
 	public void persistExpenditureTest() {
-		Set<Member> members=Sets.newHashSet(createMember("cooldudebtn@gmail.com"),createMember("chandan.agarwal@aubay.be"));
+		
+		Set<User> members=Sets.newHashSet(user1,user2);
 		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().withMembers(members).build();
 		expenditureRepository.persist(expenditure);
 		assertThat(expenditure.getId()).isNotNull();
@@ -48,37 +58,33 @@ public class ExpenditureRepositoryIntegrationTest extends
 	@Test
 	public void addMember() {
 		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
-		Member member1 = createMember("cooldudebtn@gmail.com");
-		expenditure.addMember(member1);
+		expenditure.addMember(user1);
 		
 		Expenditure expenditureFromDb = expenditureRepository.getById(expenditure.getId());
-		assertThat(expenditureFromDb.getMembers()).containsOnly(member1);
+		assertThat(expenditureFromDb.getMembers()).containsOnly(user1);
 	}
 	
 	@Test
 	public void removeMember() {
 		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
-		Member member1 = createMember("cooldudebtn@gmail.com");
-		expenditure.addMember(member1);
+		expenditure.addMember(user1);
 		
-		Member member2 = createMember("cooldude@gmail.com");
-		expenditure.addMember(member2);
+		expenditure.addMember(user2);
 		
 		Long id = expenditure.getId();
 		Expenditure expenditureFromDb = expenditureRepository.getById(id);
-		assertThat(expenditureFromDb.getMembers()).containsOnly(member1,member2);
+		assertThat(expenditureFromDb.getMembers()).containsOnly(user1,user2);
 		
-		expenditureFromDb.deleteMember(member1);
+		expenditureFromDb.deleteMember(user1);
 		Expenditure expenditureFromDb1 = expenditureRepository.getById(id);
-		assertThat(expenditureFromDb1.getMembers()).containsOnly(member2);
+		assertThat(expenditureFromDb1.getMembers()).containsOnly(user2);
 		
 	}
 	
 	@Test
 	public void addExpenseTest() {
 		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
-		Member spender = createMember("cooldudebtn@gmail.com");
-		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(spender)
+		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(user1)
 				.build();
 		expenditure.addExpense(expense1);
 		
@@ -90,12 +96,11 @@ public class ExpenditureRepositoryIntegrationTest extends
 	@Test
 	public void removeExpenseTest() {
 		Expenditure expenditure = ExpenditureTestBuilder.anExpenditure().buildAndPersist();
-		Member spender = createMember("cooldudebtn@gmail.com");
-		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(spender)
+		Expense expense1 = ExpenseTestBuilder.anExpense().withSpender(user1)
 				.build();
 		expenditure.addExpense(expense1);
 		
-		Expense expense2 = ExpenseTestBuilder.anExpense().withSpender(spender)
+		Expense expense2 = ExpenseTestBuilder.anExpense().withSpender(user1)
 				.build();
 		expenditure.addExpense(expense2);
 		Expenditure expenditureFromDb = expenditureRepository.getById(expenditure.getId());
@@ -108,8 +113,8 @@ public class ExpenditureRepositoryIntegrationTest extends
 	}
 
 	
-	private Member createMember(String email) {
-		return MemberTestBuilder.aMember().withEmail(email).build();
+	private User createMember(String email,String userName) {
+		return UserTestBuilder.aUser().withEmail(email).withUsername(userName).buildAndPersist();
 	}
 
 }

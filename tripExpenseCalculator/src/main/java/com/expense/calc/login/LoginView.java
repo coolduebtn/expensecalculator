@@ -7,6 +7,7 @@ import com.vaadin.ui.VerticalLayout;
 public class LoginView extends VerticalLayout implements View {
 
 	public LoginView() {
+		removeAllComponents();
 		LoginForm loginForm = new LoginForm();
 		addComponent(loginForm);
 	}

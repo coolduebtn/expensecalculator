@@ -1,6 +1,7 @@
 package com.expense.calc.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
 import com.expense.calc.MyVaadinUI;
@@ -21,7 +22,7 @@ AuthenticationException;
 import org.springframework.security.core.context.
 SecurityContextHolder;
 
-@Component
+@Configurable
 public class LoginForm extends VerticalLayout {
 	
 	@Autowired
