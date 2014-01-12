@@ -39,5 +39,8 @@ CREATE TABLE `Expense` (
    CONSTRAINT `expense_fk_expenditure` FOREIGN KEY (`expenditure_id`) REFERENCES `Expenditure` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+insert into Account values (1,'chandan','cooldudebtn@gmail.com','admin','admin');
+insert into Account values(2,'chandu','agl.chandan@gmail.com','chandan','chandan');
+
 
 

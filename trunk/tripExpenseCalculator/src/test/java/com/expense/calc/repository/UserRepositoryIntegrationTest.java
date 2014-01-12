@@ -36,4 +36,15 @@ public class UserRepositoryIntegrationTest extends AbstractRepositoryIntegration
 		User byId = memberRepository.getById(member.getId());
 		assertThat(byId).isNull();
 	}
+	
+	@Test
+	public void loadUserByUsername() {
+		User member = UserTestBuilder.aUser().withUsername("chandan").buildAndPersist();
+		
+		User fromDbUser = memberRepository.loadUserByUsername("chandan");
+		assertThat(fromDbUser).isEqualTo(member);
+		
+		User fromDbUser2 = memberRepository.loadUserByUsername("chandu");
+		assertThat(fromDbUser2).isNull();
+	}
 }

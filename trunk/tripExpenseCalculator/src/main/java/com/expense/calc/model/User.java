@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity(name="Account")
-public class User implements BaseEntity {
+public class User implements BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
