@@ -5,35 +5,35 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.expense.calc.builder.MemberTestBuilder;
-import com.expense.calc.model.Member;
+import com.expense.calc.builder.UserTestBuilder;
+import com.expense.calc.model.User;
 
-public class MemberRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest{
+public class UserRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest{
 
 	@Autowired
-	private MemberRepository memberRepository;
+	private UserRepository memberRepository;
 	
 	@Test
 	public void persistMemberTest() {
-		Member member = MemberTestBuilder.aMember().build();
+		User member = UserTestBuilder.aUser().build();
 		memberRepository.persist(member);
 		assertThat(member.getId()).isNotNull();
 	}
 	
 	@Test 
 	public void loadMemberTest() {
-		Member member = MemberTestBuilder.aMember().buildAndPersist();
+		User member = UserTestBuilder.aUser().buildAndPersist();
 		
-		Member loadedMember = memberRepository.load(member.getId());
+		User loadedMember = memberRepository.load(member.getId());
 		assertThat(loadedMember).isEqualTo(member);
 	}
 	
 	@Test
 	public void deleteMemberTest() {
-		Member member = MemberTestBuilder.aMember().buildAndPersist();
+		User member = UserTestBuilder.aUser().buildAndPersist();
 		
 		memberRepository.delete(member);
-		Member byId = memberRepository.getById(member.getId());
+		User byId = memberRepository.getById(member.getId());
 		assertThat(byId).isNull();
 	}
 }

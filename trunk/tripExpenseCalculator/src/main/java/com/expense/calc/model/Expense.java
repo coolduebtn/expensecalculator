@@ -26,7 +26,7 @@ public class Expense implements BaseEntity{
 	private Date expenseDate;
 	
 	@ManyToOne
-	private Member spender;
+	private User spender;
 
 	@Override
 	public Long getId() {
@@ -49,11 +49,11 @@ public class Expense implements BaseEntity{
 		this.amount = amount;
 	}
 
-	public Member getSpender() {
+	public User getSpender() {
 		return spender;
 	}
 
-	public void setSpender(Member spender) {
+	public void setSpender(User spender) {
 		this.spender = spender;
 	}
 	

@@ -3,7 +3,7 @@ package com.expense.calc.builder;
 import java.util.Date;
 
 import com.expense.calc.model.Expense;
-import com.expense.calc.model.Member;
+import com.expense.calc.model.User;
 
 public class ExpenseTestBuilder extends AbstractTestBuilder<Expense> {
 	
@@ -11,7 +11,7 @@ public class ExpenseTestBuilder extends AbstractTestBuilder<Expense> {
 	private static final String DESCRIPTION = "lunch at macD";
 	private String description=DESCRIPTION;
 	private Double amount=100D;
-	private Member spender=null;
+	private User spender=null;
 	private Date date=new Date();
 
 	public static ExpenseTestBuilder anExpense() {
@@ -28,7 +28,7 @@ public class ExpenseTestBuilder extends AbstractTestBuilder<Expense> {
 		return this;
 	}
 	
-	public ExpenseTestBuilder withSpender(Member spender) {
+	public ExpenseTestBuilder withSpender(User spender) {
 		this.spender=spender;
 		return this;
 	}
