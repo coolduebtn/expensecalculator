@@ -2,8 +2,8 @@ package com.expense.calc;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.expense.calc.login.LoginView;
-import com.expense.calc.login.UserView;
+import com.expense.calc.view.login.LoginView;
+import com.expense.calc.view.user.UserView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -21,20 +21,33 @@ import com.vaadin.ui.VerticalLayout;
 @PreserveOnRefresh
 public class MyVaadinUI extends UI
 {
+	
+    public static final String USER_VIEW = "user";
+	public static final String LOGIN_VIEW = "login";
 
-    @WebServlet(value = "/*", asyncSupported = true)
+	@WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.expense.calc.AppWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
+	private UserView userView;
     
     @Override
     protected void init(VaadinRequest request) {
     	Navigator navigator = new Navigator(this, this);
-    	navigator.addView("login", LoginView.class);
-    	navigator.addView("user", UserView.class);
-    	navigator.navigateTo("login");
+    	navigator.addView(LOGIN_VIEW, LoginView.class);
+    	userView=new UserView();
+    	navigator.addView(USER_VIEW, userView);
+    	navigator.navigateTo(LOGIN_VIEW);
     	setNavigator(navigator);
+    }
+    
+    public UserView getUserView() {
+		return userView;
+	}
+    
+    public static MyVaadinUI getCurrent() {
+    	return (MyVaadinUI) UI.getCurrent();
     }
 
 }
