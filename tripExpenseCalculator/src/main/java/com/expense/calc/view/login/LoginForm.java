@@ -1,30 +1,30 @@
-package com.expense.calc.login;
+package com.expense.calc.view.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.calc.MyVaadinUI;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.ui.*;
-
-import org.springframework.security.authentication.
-UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.
-AuthenticationException;
-import org.springframework.security.core.context.
-SecurityContextHolder;
 
 @Configurable
 public class LoginForm extends VerticalLayout {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1614525769486744918L;
+
 	@Autowired
 	private AuthManager authManager;
 
@@ -39,6 +39,7 @@ public class LoginForm extends VerticalLayout {
 		btnLogin.addClickListener(createLoginFormListener());
 	}
 
+	@SuppressWarnings("serial")
 	private ClickListener createLoginFormListener() {
 		return new Button.ClickListener() {
 			@Override
@@ -53,9 +54,8 @@ public class LoginForm extends VerticalLayout {
 					Authentication result = authManager.authenticate(request);
 					SecurityContextHolder.getContext()
 							.setAuthentication(result);
-					MyVaadinUI current = (MyVaadinUI) UI.getCurrent();
-					Navigator navigator = current.getNavigator();
-					navigator.navigateTo("user");
+					Navigator navigator = MyVaadinUI.getCurrent().getNavigator();
+					navigator.navigateTo(MyVaadinUI.USER_VIEW);
 				} catch (AuthenticationException e) {
 					Notification.show("Authentication failed: "
 							+ e.getMessage());

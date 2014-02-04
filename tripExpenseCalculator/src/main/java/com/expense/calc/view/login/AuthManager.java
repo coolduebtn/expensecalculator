@@ -1,4 +1,4 @@
-package com.expense.calc.login;
+package com.expense.calc.view.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
