@@ -1,0 +1,1 @@
+Used to calculate/track trip or house expenses between friends/family
